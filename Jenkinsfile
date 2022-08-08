@@ -97,17 +97,57 @@ pipeline {
             }
             
         }
-    }
-    post {  
-          
-         always {  
-             
-                      bat  'docker-compose down'
-                      bat  'docker rmi  ehabdevopscourse/restapp_image:'+ "${BUILD_NUMBER}" 
-                      
-             
-         }  
-        
-  
+	
+	
+	stage('Install helm chart ') {
+        steps {
+                script {
+                    
+                    
+                    bat  'helm install  k8schart  projectchart --set image.version=ehabdevopscourse/restapp_image:'+ "${BUILD_NUMBER}"  
+                        
+                }
+            }
+        }
+		
+
+     
+    stage('Write URL to text file ') {
+        steps {
+                script {
+                    
+                    
+                    bat  ' start /wait  minikube service restapp-service --url > k8s_url.txt' 
+                        
+                }
+            }
+        }
+		
+    stage('Test deployed app ') {
+        steps {
+                script {
+                    
+                    
+                    bat  'start /min K8S_backend_testing.py '
+                    bat  'python K8S_backend-testvalidation.py'
+                        
+                }
+            }
+        }
+		
+	
+
+    stage('Clean Helm release ') {
+        steps {
+                script {
+                    
+                    
+                    bat  'helm uninstall k8schart' 
+                        
+                }
+            }
+        } 
+	
+    }  
 }
-}
+	
