@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapp-service
+spec:
+  selector:
+    app: restapp-python3
+  ports:
+  - protocol: "TCP"
+    port: 5000
+    targetPort: 5000
+  type: {{ .Values.service.type }}

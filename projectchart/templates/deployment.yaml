@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapp-python3
+spec:
+  selector:
+    matchLabels:
+      app: restapp-python3
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: restapp-python3
+    spec:
+      containers:
+      - name: restapp-python3
+        image: {{ .Values.image.repository }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
