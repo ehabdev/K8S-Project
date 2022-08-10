@@ -17,12 +17,13 @@ pipeline {
                 git 'https://github.com/ehabdev/K8S-Project.git'
             }
         }
-   
+    
+	   
     stage('run rest_app') {
             steps {
                 script {
                     
-                        bat  'start /min python rest_app.py'
+                        bat  'start /b /min python rest_app.py'
                 }
             }
         }
@@ -32,11 +33,11 @@ pipeline {
                 script {
                    
                         bat  'python backend_testing.py'
+                        sleep 3
                 }
             }
         
         }
-
     stage('run clean environment') {
             steps {
                 script {
@@ -45,6 +46,8 @@ pipeline {
                 }
             }
         }   
+        
+    
     stage ('Build Docker Image')  
         {
             steps{
@@ -87,8 +90,8 @@ pipeline {
             }
             }
             
-        stage('Test dockerized app') {
-            steps {
+    stage('Test dockerized app') {
+        steps {
                 script {
                     
                         bat  'start /min python docker_backend_testing.py '
@@ -97,6 +100,18 @@ pipeline {
             }
             
         }
+		
+	                  
+	stage('Clean compose environment') {
+        steps {
+                script {
+                    
+                        bat  'docker-compose down'
+    	                bat  'docker rmi  ehabdevopscourse/restapp_image:'+ "${BUILD_NUMBER}" 
+                }
+            }
+            
+        }	
 	
 	
 	stage('Install helm chart ') {
