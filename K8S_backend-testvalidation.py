@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 import socket
 
 def verifyfront(userid):
-    f = open("C:\\Users\\idavos\\k8s_url.txt", "r")
+    f = open("k8s_url.txt", "r")
     furl=f.readline()
     furle=furl.strip()+'/users/'
     url=str(furle)+str(userid)
