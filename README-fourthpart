@@ -1,0 +1,27 @@
+Project – fourth part:
+
+Jenkins pipeline steps
+1. Pull code from your Github repository holding your project  //no changes
+2. Run rest_app.py (backend) - //no changes 
+3. Run backend_testing.py - //no changes
+4. Run clean_environemnt.py- //no changes
+5. Build Docker image - locally -//no changes
+6. Push Docker image – to HUB  -//no changes
+7. Set compose image version – setting the version inside the .env file for docker-compose
+This is as simple as calling: "echo IMAGE_TAG=${BUILD_NUMBER} > .env" - //no changes
+8. Run docker-compose up -d -//no changes 
+9. Test dockerized app – using docker_backend_testing.py - //no changes
+10. Clean compose environment – call docker-compose down and delete local image -//no changes
+
+11. Deploy HELM chart passing image with –set image.version=”my_repo”:${BUILD_NUMBER}
+    please find the project chart folder . 
+    
+12. Write your service URL into k8s_url.txt file using:
+$ minikube service hello-python-service –url > k8s_url.txt  
+  - I faced issue with this requirement but as I explained before the workaround solve the problem as well. 
+  
+13. Test deployed app – using K8S_backend_testing.py .
+  - I created another python script like the   docker_backend_testing and another script K8S_backend-testvalidation.py  which will extract the IP 
+  address:port from the k8s_url.txt and try to access this address with exist user if I get respond I will take the page src and print it as a kind of validation. 
+  
+14. Clean HELM environment – call HELM delete
