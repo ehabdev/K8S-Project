@@ -14,7 +14,7 @@ pipeline {
                     properties([pipelineTriggers([pollSCM('30 * * * *')])])
                     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '20'))])
                 }
-                git 'https://github.com/ehabdev/DEVOPSCourse1.git'
+                git 'https://github.com/ehabdev/K8S-Project.git'
             }
         }
    
@@ -117,8 +117,9 @@ pipeline {
                 script {
                     
                     
-                    bat  ' start /wait  minikube service restapp-service --url > k8s_url.txt' 
-                        
+                    bat  ' start /b /min  minikube service restapp-service --url > k8s_url.txt' 
+                    sleep 3
+                    bat  'clear'    
                 }
             }
         }
@@ -150,4 +151,9 @@ pipeline {
 	
     }  
 }
+	
+	
+	
+	
+	
 	
