@@ -4,5 +4,4 @@ services:
     build: .
     ports:
      - "5000:5000"
-  myservice:
-    image: "ehabdevopscourse/restapp_image:${IMAGE_TAG}"
+  
